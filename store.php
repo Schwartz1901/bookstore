@@ -10,6 +10,10 @@
 
 <div class="container-fluid mt-5">
     <?php 
+        $number= 1;
+        $numbers = array(1,2,3);
+        $result_per_page = 10;
+
     if($_SERVER["REQUEST_METHOD"] == "POST"){
         if(empty($_POST["search"])) {
             $sql = "SELECT title, author, price, image FROM books";
@@ -18,16 +22,17 @@
             $key = $_POST["search"];
             $sql = "SELECT title, author, price, image FROM books WHERE title = '$key' OR Author = '$key'";
         }
+
         $result = $conn->query($sql);
-    
-        if ($result->num_rows > 0) {
-            // output data of each row
-            while($row = $result->fetch_assoc()) {
-              echo "Title: " . $row["title"]. " - Author: " . $row["author"]. " " . " - Price " . $row["price"]."<br>";
-            }
-          } else {
-            echo "0 results";
-          }
+        $number_of_result = mysqli_num_rows($result);
+        $number_of_page = ceil ($number_of_result / $result_per_page);  
+        
+        $sql = $sql.' LIMIT ' . $result_per_page;
+        // echo $sql;
+        $result = $conn->query($sql);
+        while ($row = mysqli_fetch_array($result)) {  
+            echo $row['title'] . ' -By.  ' . $row['author'] . ' -Price: ' . $row['price'] . '</br>';  
+        }  
     }
 
     ?>
