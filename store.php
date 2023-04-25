@@ -3,24 +3,20 @@
 
 
 
-<div class="form-outline mt-5">
-    <form name="search" method="post">
-        <input type="search" id="search" class="form-control" placeholder="Type query" aria-label="Search" name="search"/>
-        <button type="submit" class="mt-2" value="search">Search</button>
-    </form>
-
-</div>
+<form name="search" method="post">
+    <input type="text" id="search" name="search"/>
+    <button type="submit" value="search"
+</form>
 
 <div class="container-fluid mt-5">
     <?php 
     if($_SERVER["REQUEST_METHOD"] == "POST"){
-        if(empty($_POST["form1"])) {
+        if(empty($_POST["search"])) {
             $sql = "SELECT title, author, price, image FROM books";
-
         }
         else {
-            $key = $_POST["form1"];
-            $sql = "SELECT title, author, price, image FROM books WHERE title = $key OR Author = $key";
+            $key = $_POST["search"];
+            $sql = "SELECT title, author, price, image FROM books WHERE title = '$key' OR Author = '$key'";
         }
         $result = $conn->query($sql);
     
