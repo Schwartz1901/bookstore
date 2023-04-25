@@ -31,7 +31,7 @@
         <main>
             <?php 
                 $pages = array(
-                    'home' => 'home.php',
+                    'home' => 'home.html',
                     'novels' => 'novel.php',
                     'comics' => 'comics.php',
                     'mangas' => 'mangas.php',

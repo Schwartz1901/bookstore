@@ -57,7 +57,12 @@
     color: #fff;
 }
 /* Upcoming release */
-
+.upcoming-release{
+    position: relative;
+    height: 1000px;
+    display: flex;
+    justify-content: center;
+}
 
 
 
