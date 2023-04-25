@@ -17,11 +17,11 @@
                     </div>
                     <div c;ass="collapse navbar-collapse">
                         <div class="navbar-nav" id="navbarNavAltMarkup">
-                            <a class="nav-link" href="#">Novels</a>
-                            <a class="nav-link" href="#">Comics</a>
-                            <a class="nav-link" href="#">Mangas</a>
-                            <a class="nav-link" href="#">Audiobooks</a>
-                            <a class="nav-link" href="#">Digital</a>
+                            <a class="nav-link" href="index.php?page=home">Home</a>
+                            <a class="nav-link" href="#">Your shelf</a>
+                            <a class="nav-link" href="index.php?page=store">Store</a>
+                            <a class="nav-link" href="#">About Us</a>
+                            <a class="nav-link" href="#">Login</a>
                         </div>
                     </div>
                 </div>
@@ -32,13 +32,10 @@
             <?php 
                 $pages = array(
                     'home' => 'home.html',
-                    'novels' => 'novel.php',
-                    'comics' => 'comics.php',
-                    'mangas' => 'mangas.php',
-                    'audiobooks' => 'audiobooks.php',
-                    'digital' => 'digital.php',
-                    'about' => 'about.php',
-                    'contact' => 'contact.php',
+                    'yourshelf' => 'yourshelf.php',
+                    'store' => 'store.php',
+                    'aboutus' => 'aboutus.php',
+                    'login' => 'login.php'
                 );
 
                 // Check for the page parameter
@@ -47,13 +44,12 @@
                 } else {
                     $page = $pages['home'];
                 }
-
                 // Include the appropriate file
                 include($page);
             ?>
         </main>
     <!-- =========================== Footer ================================= -->
-        <footer>
+        <footer class="container-fluid mt-5">
             <p>&copy; My Simple Bookstore online <?php echo date('Y'); ?></p>
         </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
