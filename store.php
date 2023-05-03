@@ -1,80 +1,51 @@
-
 <?php 
-    require_once("db.php"); 
-    $sql = "SELECT Title, Author, Price FROM books";
-    $result = $conn->query($sql);
+    include 'db.php';
+    echo '<form>
+        <label for="records">Limit records</label>
+        <input type="text" id="records" name="records">
+        <button type="submit">Send</button>
+    </form>';
+    $limit = isset($_GET["records"])? $_GET["records"] : 5;
+    $pagenum = isset($_GET['pagenum'])? $_GET['pagenum'] : 1;
 
+    $result = $conn->query("SELECT Title, Author, Price FROM books");
+    $total_rows = $result->num_rows;
+    $total_pages = ceil($total_rows/$limit);
+    $start = ($pagenum - 1) * $limit;
+    $pag_result = $conn->query("SELECT Title, Author, Price FROM books ORDER BY Title ASC LIMIT $start, $limit");
 
-    $limit = 10;
-    $page = 0;
-    $output = '';
+    $books = $pag_result->fetch_all(MYSQLI_ASSOC)
 
-    if(isset($_POSTR["page"])) {
-        $page = $_POST["page"];
-    } else {
-        $page = 1;
-    }
-
-    $start_from =($page - 1) * $limit;
-    $query = mysqli_query($conn, "SELECT Title, Author, Price FROM books ORDER BY Title ASC LIMIT $start_from, $limit" );
-    $output .= '
-        <div class="container-fluid mt-5">
-            <table class="table table-hover">
-                <tr>
-                    <th>Title</th>
-                    <th>Author</th>
-                    <th>Price</th>
-                </tr>
-    ';
-    if(mysqli_num_rows($query) > 0) {
-        while($row = mysqli_fetch_array($query)) {
-            $output .= '
-                <tr>
-                    <td>'.ucfirst($row["Title"]).'</td>
-                    <td>'.ucfirst($row["Author"]).'</td>
-                    <td>'.ucfirst($row["Price"]).'</td>
-                </tr>
-            ';
-        }
-    } else {
-        $output.='
-            <tr>
-                <td> Data not Found. </td>
-            </tr>
-        ';
-    }
-
-    $output .= '
-        </table>
-        </div>
-    ';
-
-    //pagination
-    $query = mysqli_query($conn, "SELECT Title, Author, Price FROM books");
-    $total_records = mysqli_num_rows($query);
-    $total_pages = ceil($total_records/$limit);
-    $output .= '<ul class="pagination">';
-
-    if($page > 1) {
-        $previous = $page - 1;
-        $output .= '<li class="page-item" id="1"><span class="page-link">First Page</span></li>';
-        $output .= '<li class="page-item" id="'.$previous.'"><span class="page-link"><i class="fa fa-arrow-left"></i></span></li>';
-    }
-
-    for($i=1; $i<=$total_pages; $i++) {
-        $active_class = "";
-        if($i == $page) {
-            $active_class ="active";
-        }
-        $output .= '<li class="page-item"'.$active_class.'" id="'.$i.'"><span class="page-link">'.$i.'</span></li>';
-    }
-
-    if($page < $total_pages) {
-        $page++;
-        $output .= '<li class="page-item" id="'.$page.'"><span class="page-link"><i class ="fa fa-arrow-right"></i></span></li>';
-        $output .= '<li class="page-item" id="'.$total_pages.'"><span class="page-link">Last Page</span></li>';
-    }
-    $output .= '</ul>';
-    echo $output;
 ?>
 
+<nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <?php
+            echo '<li class="page-item"><a class="page-link" href="#">Previous</a></li>';
+                for ($i = 1; $i <= $total_pages; $i++) {
+            echo '<li class="page-item"><a class="page-link" href="store.php?pagenum='.$i.'">'.$i.'</a></li>';
+                }
+            echo '<li class="page-item"><a class="page-link" href="#">Next</a></li>';
+            ?>
+        </ul>
+    </nav>
+
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Author</th>
+            <th scope="col">Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach($books as $book) : ?>
+            <tr>
+                <td><?= $book['Title']; ?></td>
+                <td><?= $book['Author']; ?></td>
+                <td><?= $book['Price']; ?></td>
+            <tr>
+        <?php endforeach;?> 
+    </tbody>
+</table>

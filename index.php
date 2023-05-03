@@ -30,13 +30,15 @@
         </header>
     <!-- =========================== Main content ============================== -->
         <main>
+            <div class="containe-fluid px-5 ">
             <?php 
                 $pages = array(
                     'home' => 'home.html',
                     'yourshelf' => 'yourshelf.php',
                     'store' => 'store.php',
                     'aboutus' => 'aboutus.php',
-                    'login' => 'login.php'
+                    'login' => 'login.php',
+
                 );
 
                 // Check for the page parameter
@@ -48,6 +50,7 @@
                 // Include the appropriate file
                 include($page);
             ?>
+            </div>
         </main>
     <!-- =========================== Footer ================================= -->
         <footer class="container-fluid mt-5">
