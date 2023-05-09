@@ -1,11 +1,11 @@
 <?php 
     include 'db.php';
-    echo '<form>
+    echo '<form method="POST" action="index.php?page=store">
         <label for="records">Limit records</label>
         <input type="text" id="records" name="records">
         <button type="submit">Send</button>
     </form>';
-    $limit = isset($_GET["records"])? $_GET["records"] : 5;
+    $limit = isset($_POST["records"])? $_POST["records"] : 5;
     $pagenum = isset($_GET['pagenum'])? $_GET['pagenum'] : 1;
 
     $result = $conn->query("SELECT Title, Author, Price FROM books");
