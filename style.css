@@ -6,7 +6,7 @@
 .hero {
     position: relative;
     height: 500px;
-    background-image: url('hero-background.jpg');
+    background-image: url('logincover.jpg');
     background-size: cover;
     background-position: center;
     display: flex;
