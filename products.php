@@ -1,13 +1,22 @@
 <?php 
     include 'db.php';
-    $limit = isset($_POST["records"])? $_POST["records"] : 5;
+    $limit = isset($_GET["records"])? $_GET["records"] : 5;
     $pagenum = isset($_GET['pagenum'])? $_GET['pagenum'] : 1;
 
     $result = $conn->query("SELECT Title, Author, Price FROM books");
     $total_rows = $result->num_rows;
     $total_pages = ceil($total_rows/$limit);
     $start = ($pagenum - 1) * $limit;
-    $pag_result = $conn->query("SELECT Title, Author, Price FROM books ORDER BY Title ASC LIMIT $start, $limit");
+    $search_content = isset($_GET["search"])? $_GET["search"] : '';
+    if ($search_content) {
+        $pag_result = $conn->query("SELECT Title, Author, Price FROM books 
+        WHERE (Title = '$search_content' OR Author = '$search_content' OR Price = '$search_content')
+        ORDER BY Title 
+        ASC LIMIT $start, $limit");
+    } else {
+        $pag_result = $conn->query("SELECT Title, Author, Price FROM books ORDER BY Title ASC LIMIT $start, $limit");
+    }
+
 
     $books = $pag_result->fetch_all(MYSQLI_ASSOC)
 
@@ -34,28 +43,39 @@
                         <div class="navbar-nav" id="navbarNavAltMarkup">
                             <a class="nav-link" href="index.php?page=home">Home</a>
                             <a class="nav-link" href="#">Shelf</a>
-                            <a class="nav-link" href="index.php?page=store">Store</a>
+                            <a class="nav-link" href="index.php?page=products">Products</a>
                             <a class="nav-link" href="index.php?page=about">About</a>
-                            <a class="nav-link" href="login.html">Login</a>
+                            <a class="nav-link" href="index.php?page=login">Login</a>
                         </div>
                     </div>
                 </div>
             </nav>
         </header>
+
+
 <main>
-    <div class="container-fluid mt-5 mx-auto">
-        <form method="POST" action="index.php?page=store">
+    <div class="container-fluid mt-5 mx-auto d-flex justify-content-start">
+    <form method="GET" action="index.php?page=products">
         <label for="records">Limit records</label>
-        <input type="text" id="records" name="records">
+        <input type="number" id="records" name="records" />
+        <input type="text" value="products" name="page" hidden/>
         <button type="submit">Send</button>
     </form>
-    <nav aria-label="Page navigation example">
+
+    <form method="GET" action="index.php?page=products">
+        <label for="search">Search</label>
+        <input type="text" id="search" name="search" />
+        <input type="text" value="products" name="page" hidden/>
+        <button type="submit">Send</button>
+    </form>
+    </div>
+
+    <nav>
             <ul class="pagination">
                 <?php
                 echo '<li class="page-item"><a class="page-link" href="#">Previous</a></li>';
                     for ($i = 1; $i <= $total_pages; $i++) {
-                echo '<li class="page-item"><a class="page-link" href="store.php?pagenum='.$i.'">'.$i.'</a></li>';
-                // echo '<li class="page-item"><a class="page-link" href="#" onclick="loadPagination('.$i.')">'.$i.'</a></li>';
+                echo '<li class="page-item"><a class="page-link" href="index.php?page=products&pagenum='.$i.'&records='.$limit.'">'.$i.'</a></li>';
                     }
                 echo '<li class="page-item"><a class="page-link" href="#">Next</a></li>';
                 ?>

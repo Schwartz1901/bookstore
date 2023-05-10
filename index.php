@@ -1,12 +1,13 @@
 
-<?php 
+<?php
+    session_start();
     $pages = array(
         'home' => 'home.html',
         'yourshelf' => 'yourshelf.php',
-        'store' => 'store.php',
+        'products' => 'products.php',
         'about' => 'about.html',
         'login' => 'login.php',
-        'register' => 'register.html'
+        'register' => 'register.php'
 
     );
 
@@ -18,4 +19,5 @@
     }
     // Include the appropriate file
     include($page);
+    
 ?>

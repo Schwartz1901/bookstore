@@ -1,10 +1,11 @@
 <?php
-  session_start();
+
     #validate
     include_once('db.php');
 
     $usernameErr = $passwordErr = "";
     $username = $password ="";
+    $login_error = '';
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (empty($_POST["username"])) {
             $usernameErr = "Username cannot be empty";
@@ -33,13 +34,13 @@
         }
 
           if ($username && $password) {    
-              $sql_select = "SELECT password FROM users WHERE username = '$username'";
-              $result = mysqli_query($conn, $sql_select);
-              $row = mysqli_fetch_row($result);
-              $r_password = $row[0];
-      
-              // if (hash('md5', $password) === $r_password) {
-                if ($password === $r_password) {
+            $sql_select = "SELECT password FROM users WHERE username = '$username'";
+            $result = mysqli_query($conn, $sql_select);
+            $row = mysqli_fetch_row($result);
+            $r_password = $row[0];
+            echo hash('md5', $password) === $r_password;
+              if (hash('md5', $password) === $r_password) {
+                // if ($password === $r_password) {
                   $cookie_name = $username;
                   $cookie_value = "ref";
                   $_SESSION[$username] = "Logged in";
@@ -51,7 +52,7 @@
                   header( 'Location: home.html');
                   exit();
               } else {
-                  echo "Incorrect username or password";
+                  $login_error =  "Incorrect username or password";
               }
             }
 
@@ -82,13 +83,16 @@
         <div class="fluid-container mt-5 d-flex justify-content-center">
             <form name="login" action="index.php?page=login" method="post">
 
-                Email: <input type="text" id="username" name="username" value="<?php echo $username;?>"/>
-                <span class="error"><?php echo $usernameErr;?></span>
+                Username: <input type="text" id="username" name="username" value="<?php echo $username;?>"/>
+                <span class="error" style="color:red"><?php echo $usernameErr;?>*</span>
                 <br> <br>
                 Password: <input type="password" id="password" name="password" value="<?php echo $password;?>"/>
-                <span class="error"><?php echo $passwordErr;?></span>
-                <br>
+                <span class="error" style="color:red"><?php echo $passwordErr;?>*</span>
+                <br> 
                 <input type="submit" value="login"/>
+                <br> <br>
+                <a href="index.php?page=register">Register</a>
+                <span class="error" style = "color:red"><?php echo $login_error;?></span>
         </div>
     </form>
 </body>
