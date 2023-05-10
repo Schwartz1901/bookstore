@@ -69,22 +69,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Foreverbooks</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link href="style.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <title>Login</title>
 </head>
 <body>
-    <form name="login" action="index.php?page=login" method="post">
+        <h1 class="mt-5 text-center"> Login Page </h1>
+        <div class="fluid-container mt-5 d-flex justify-content-center">
+            <form name="login" action="index.php?page=login" method="post">
 
-        Email: <input type="text" id="username" name="username" value="<?php echo $username;?>"/>
-        <span class="error"><?php echo $usernameErr;?></span>
-        <br> <br>
-        Password: <input type="password" id="password" name="password" value="<?php echo $password;?>"/>
-        <span class="error"><?php echo $passwordErr;?></span>
-        <br>
-        <input type="submit" value="login"/>
-
+                Email: <input type="text" id="username" name="username" value="<?php echo $username;?>"/>
+                <span class="error"><?php echo $usernameErr;?></span>
+                <br> <br>
+                Password: <input type="password" id="password" name="password" value="<?php echo $password;?>"/>
+                <span class="error"><?php echo $passwordErr;?></span>
+                <br>
+                <input type="submit" value="login"/>
+        </div>
     </form>
 </body>
 
